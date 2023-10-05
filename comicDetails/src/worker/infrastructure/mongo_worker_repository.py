@@ -1,0 +1,131 @@
+import time
+
+from shared.infrastructure import CachedConfig
+from shared.infrastructure.logs import Log, Measurement
+from shared.infrastructure.settings import get_settings
+from shared.infrastructure.utils import Utils
+from worker.domain import DBRepository
+
+settings = get_settings()
+
+
+class MongoWorkerRepository(DBRepository):
+
+    def __init__(self, session_factory):
+        self.session_factory = session_factory
+        self.document_error = "Without the document or it has a bad structure."
+
+    def is_alive(self, log: Log) -> bool:
+        with self.session_factory() as session:
+
+            init_time = time.perf_counter()
+
+            data: dict = session.is_alive()
+            success = data.get('status')
+            message = data.get('message')
+            method_name = data.get('method')
+
+            time_elapsed = Utils.get_time_elapsed_ms(init_time)
+
+            if success:
+                measurement = Measurement('MongoDB', time_elapsed)
+                log.info("MongoDB is alive", measurement=measurement)
+            else:
+                measurement = Measurement('MongoDB', time_elapsed, 'Error')
+                log.error("MongoDB is not alive", method=method_name,
+                          error=message, measurement=measurement)
+            return success
+
+    def check_db(self):
+        with self.session_factory() as session:
+            data = session.is_alive()
+            return data.get('status')
+
+    @CachedConfig()
+    def get_general_config(self, log: Log, *args, **kwargs) -> dict:
+        method_name = Utils.get_method_name(self, 'get_general_config')
+        init_time = time.perf_counter()
+
+        if not self.check_db():
+            return {}
+
+        with self.session_factory() as session:
+            db = session.get_db(db_name=settings.MONGO_DB_NAME)
+            collection = db.configuraciones
+            document_id = {'_id': settings.MONGO_ID_GENERAL_CONFIG}
+            results = collection.find_one(document_id)
+
+            time_elapsed = Utils.get_time_elapsed_ms(init_time)
+
+            if not results or not results.get('configuracion'):
+                measurement = Measurement('MongoDB', time_elapsed)
+                log.error("Mongo: Get General Settings",
+                        method=method_name, error=self.document_error,
+                        object=document_id, measurement=measurement)
+                return {}
+
+            measurement = Measurement('MongoDB', time_elapsed)
+            log.info("Mongo: Get General Settings",
+                     measurement=measurement, object=document_id)
+
+            return results['configuracion'] if results else {}
+
+    @CachedConfig()
+    def get_service_config(self, log: Log, *args, **kwargs) -> dict:
+        method_name = Utils.get_method_name(self, 'get_service_config')
+        init_time = time.perf_counter()
+
+        if not self.check_db():
+            return {}
+
+        with self.session_factory() as session:
+            db = session.get_db(db_name=settings.MONGO_DB_NAME)
+            collection = db.configuraciones
+            document_id = {'_id': settings.MONGO_ID_SERVICE_CONFIG}
+            results = collection.find_one(document_id)
+
+            time_elapsed = Utils.get_time_elapsed_ms(init_time)
+
+            if not results or not results.get('configuracion'):
+                measurement = Measurement('MongoDB', time_elapsed)
+                log.error("Mongo: Get Microservice Configuration",
+                        method=method_name, error=self.document_error,
+                        object=document_id, measurement=measurement)
+                return {}
+
+            measurement = Measurement('MongoDB', time_elapsed)
+            log.info("Mongo: Get Microservice Configuration",
+                    measurement=measurement, object=document_id)
+
+            return results['configuracion']
+
+    @CachedConfig()
+    def get_error_details(self, log: Log, *args, **kwargs) -> dict:
+        method_name = Utils.get_method_name(self, 'get_error_details')
+        init_time = time.perf_counter()
+
+        if not self.check_db():
+            return {}
+
+        with self.session_factory() as session:
+            db = session.get_db(db_name=settings.MONGO_DB_NAME)
+            collection = db.configuraciones
+            document_id = {'_id': settings.MONGO_ID_ERROR_DETAILS}
+            results = collection.find_one(document_id)
+
+            time_elapsed = Utils.get_time_elapsed_ms(init_time)
+
+            if not results or not results.get('errors'):
+                measurement = Measurement('MongoDB', time_elapsed)
+                log.error("Mongo: Get List of Error Details",
+                        method=method_name, error=self.document_error,
+                        object=document_id, measurement=measurement)
+                return {}
+
+            measurement = Measurement('MongoDB', time_elapsed)
+            log.info("Mongo: Get List of Error Details",
+                     measurement=measurement, object=document_id)
+
+            return results['errors']
+
+    # TODO: Add as many functions as required

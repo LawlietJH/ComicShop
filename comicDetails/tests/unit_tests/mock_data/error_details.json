@@ -1,0 +1,138 @@
+{
+  "_id": "errorDetails",
+  "errors": {
+    "100": {
+      "code_name": "500.General-Error.100",
+      "reference_code": "",
+      "message": "Error de conexión a mongo.",
+      "description": "No fue posible establecer una conexión con Mongo.",
+      "origin": "External"
+    },
+    "101": {
+      "code_name": "500.General-Error.101",
+      "reference_code": "",
+      "message": "Error de conexión a redis.",
+      "description": "No fue posible establecer una conexión con Redis.",
+      "origin": "External"
+    },
+    "102": {
+      "code_name": "500.General-Error.102",
+      "reference_code": "",
+      "message": "Error al consumir recurso externo.",
+      "description": "El recurso externo regresó una respuesta inválida o no respondió.",
+      "origin": "External"
+    },
+    "103": {
+      "code_name": "408.General-Error.103",
+      "reference_code": "",
+      "message": "Timeout.",
+      "description": "El recurso consumido internamente tardó demasiado tiempo en responder.",
+      "origin": "External"
+    },
+    "104": {
+      "code_name": "401.General-Error.104",
+      "reference_code": "",
+      "message": "Invalid Token.",
+      "description": "El token utilizado expiró o tiene un formato incorrecto.",
+      "origin": "Internal"
+    },
+    "105": {
+      "code_name": "500.General-Error.105",
+      "reference_code": "",
+      "message": "Excepción no controlada.",
+      "description": "Ocurrió un problema en el flujo que impidió que se concluyera la petición como se esperaba.",
+      "origin": "Internal"
+    },
+    "106": {
+      "code_name": "400.General-Error.106",
+      "reference_code": "",
+      "message": "Invalid parameters.",
+      "description": "El usuario no mandó los parámetros necesarios o no cumplen con el tipo de dato esperado.",
+      "origin": "Internal"
+    },
+    "107": {
+      "code_name": "400.General-Error.107",
+      "reference_code": "",
+      "message": "Not Found.",
+      "description": "Recurso no encontrado.",
+      "origin": "Internal"
+    },
+    "108": {
+      "code_name": "400.General-Error.108",
+      "reference_code": "",
+      "message": "Method Not Allowed.",
+      "description": "El servidor conoce el método de solicitud, pero el recurso de destino no admite este método.",
+      "origin": "Internal"
+    },
+    "109": {
+      "code_name": "400.General-Error.109",
+      "reference_code": "",
+      "message": "Error al consumir recurso de Firebase",
+      "description": "Ocurrió un error mientras se intentaba consumir el recurso de Firebase.",
+      "origin": "Internal"
+    },
+    "300": {
+      "code_name": "404.Sales-Products-Spot.300",
+      "reference_code": "",
+      "message": "Sin términos o registro no dado de alta.",
+      "description": "Este error se detona al consumir Firebase, cuando se busca un término y este no existe en sus registros.",
+      "origin": "External"
+    },
+    "500": {
+      "code_name": "500.sales-products-catalogs.500",
+      "reference_code": "",
+      "message": "Error al consultar el término de búsqueda",
+      "description": "Este error ocurre cuando por algún motivo no es posible completar la búsqueda mediante cierto término.",
+      "origin": "External"
+    },
+    "base": {
+      "code_name": "501",
+      "reference_code": "",
+      "message": "búsqueda",
+      "description": "término.",
+      "origin": "External"
+    },
+    "501": {
+      "code_name": "404.sales-products-catalogs-501",
+      "reference_code": "",
+      "message": "No se encontró información para el producto proporcionado.",
+      "description": "El ID o el Product Number del producto no existen o están mal escritos.",
+      "origin": "External"
+    },
+    "502": {
+      "code_name": "404.sales-products-catalogs-502",
+      "reference_code": "",
+      "message": "No se encontró información para el término de búsqueda proporcionado.",
+      "description": "No existen productos que coincidan con el término de búsqueda especificado en la petición.",
+      "origin": "External"
+    },
+    "503": {
+      "code_name": "500.Sales-Products-Catalogs.503",
+      "reference_code": "",
+      "message": "Error al generar la URL del recurso de coppel.com para búsqueda por término",
+      "description": "La URL para consumir el recurso de búsqueda por término no se pudo generar correctamente..",
+      "origin": "Internal"
+    },
+    "700": {
+      "code_name": "500.Home-Resource.700",
+      "reference_code": "",
+      "message": "Error al consultar el término de búsqueda {0}",
+      "description": "",
+      "origin": "External"
+    },
+    "900": {
+      "code_name": "400.Sales-Catalogs-Espots.900",
+      "reference_code": "",
+      "message": "No existe un tipo de espot con ese nombre.",
+      "description": "El error ocurre cuando se intenta consumir un endpoint de CoppelCloud y se utiliza el tipo de espot que coloca el usuario como query param en la url, el cual no existe en el listado de espots que se obtiene desde firebase.",
+      "origin": "Internal"
+    },
+    "1100": {
+      "code_name": "500.Sales-Catalogs-LandingPages.1100",
+      "reference_code": "",
+      "message": "Error de conexión con el wcs_endpoint",
+      "description": "Ocurre cuando se intenta consumir el wcs_endpoint y retorna un error 500.",
+      "origin": "External"
+    }
+  }
+}

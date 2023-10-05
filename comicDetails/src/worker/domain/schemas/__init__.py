@@ -1,0 +1,3 @@
+from .hello_world_schema import responses_hello_world
+from .liveness_schema import responses_liveness
+from .readiness_schema import responses_readiness
