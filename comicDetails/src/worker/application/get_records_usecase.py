@@ -33,13 +33,13 @@ class GetRecordsUseCase(Functionalities):
         self._set_configs(self.__db_service)
 
         params = filter.dict(exclude_none=True)
-        self._log.info("Start: /comics", object=params)
+        self._log.info("Start: /records", object=params)
 
         data = self._get_records(params)
 
         total_time_elapsed = Utils.get_time_elapsed_ms(self.init_time)
 
-        self._log.info("Get Comics: Success")
+        self._log.info("Get Records: Success")
 
         return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
 

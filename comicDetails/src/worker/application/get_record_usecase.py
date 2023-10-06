@@ -32,13 +32,13 @@ class GetRecordUseCase(Functionalities):
         self._set_logs()
         self._set_configs(self.__db_service)
 
-        self._log.info("Start: /comics", object={'id': id})
+        self._log.info(f"Start: /records/{id}")
 
         data = self._get_record(id)
 
         total_time_elapsed = Utils.get_time_elapsed_ms(self.init_time)
 
-        self._log.info("Get Comics: Success")
+        self._log.info("Get Record: Success")
 
         return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
 
