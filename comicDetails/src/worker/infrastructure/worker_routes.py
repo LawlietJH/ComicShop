@@ -21,7 +21,8 @@ prefix = f'/{namespace}/api/{version}/{resource}'
 descriptions = {
     'liveness': "Verifica que el servicio se encuentre disponible.",
     'readiness': "Verifica que existan conexiones activas a MONGO/REDIS/FIREBASE.",
-    'get_comics': "Devuelve un listado de comics.",
+    'get_records': "Devuelve un listado de personajes o comics.",
+    'get_record': "Devuelve un personaje o un comic por ID."
 }
 
 router = APIRouter(prefix=prefix)
@@ -44,7 +45,7 @@ def readiness() -> HttpResponse:
 
 
 @router.get('', tags=["Comics"], responses=responses_get_comics,
-            summary=descriptions['get_comics'])
+            summary=descriptions['get_records'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='comicdetails', resource=f'GET {prefix}')
 def get_records(filter: Filter = Depends()) -> HttpResponse:
@@ -53,7 +54,7 @@ def get_records(filter: Filter = Depends()) -> HttpResponse:
 
 
 @router.get('/{id}', tags=["Comics"], responses=responses_get_comics,
-            summary=descriptions['get_comics'])
+            summary=descriptions['get_record'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='comicdetails', resource=f'GET {prefix}/id')
 def get_record(id: int) -> HttpResponse:

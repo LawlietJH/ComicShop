@@ -94,7 +94,7 @@ class GetRecordsUseCase(Functionalities):
     @autodynatrace.trace('GetRecordsUseCase - _get_marvel_data')
     @tracer.wrap(service='comicdetails', resource='_get_marvel_data')
     def _get_marvel_data(self, url: str):
-        """ Obtiene los personajes de Marvel por paginado. """
+        """ Obtiene los personajes o comics de Marvel por paginación. """
         coroutine = self._general_request.get(url)
         response = asyncio.run(coroutine)
 

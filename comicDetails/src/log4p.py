@@ -11,6 +11,13 @@ config = {
         }
     },
     'appenders': {
+        'file': {
+            'type': 'file',
+            'FileName': 'service.log',
+            'backup_count': 5,
+            'file_size_limit': 1024 * 1024 * 500,
+            'PatternLayout': "%(message)s"
+        },
         'console': {
             'type': 'console',
             'target': 'console',
