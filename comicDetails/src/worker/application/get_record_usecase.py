@@ -46,7 +46,7 @@ class GetRecordUseCase(Functionalities):
         data = {}
 
         url_comics = self._get_url(type_url='comics', id=id)
-        url_characters = self._get_url(id=id)
+        url_characters = self._get_url(type_url='characters', id=id)
 
         comic_item = self._get_marvel_data(url_comics)
         if comic_item:

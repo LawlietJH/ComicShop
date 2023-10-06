@@ -60,7 +60,7 @@ class Functionalities:
         API_HASH = hashlib.md5(KEYS.encode("utf-8")).hexdigest()
         API_PARAMS = f'ts={TIMESTAMP}&apikey={API_PUB_KEY}&hash={API_HASH}'
         URL_CHARACTERS = f'{API_URL}/characters{ID}?{API_PARAMS}&orderBy=name&{LIMIT}'
-        URL_COMICS = f'{API_URL}/comics{ID}?{API_PARAMS}&format=comic&formatType=comic&noVariants=true&{LIMIT}'
+        URL_COMICS = f'{API_URL}/comics{ID}?{API_PARAMS}&orderBy=title&format=comic&formatType=comic&noVariants=true&{LIMIT}'
 
         if type_url == 'characters':
             return URL_CHARACTERS

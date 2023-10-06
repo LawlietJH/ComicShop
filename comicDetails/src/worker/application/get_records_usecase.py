@@ -44,11 +44,45 @@ class GetRecordsUseCase(Functionalities):
         return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
 
     def _get_records(self, params: str):
+        title = params.get('comic', '')
+        number = params.get('number', 0)
+        year = params.get('year', 2023)
+        name = params.get('character', '')
         contains = params.get('contains', '')
         page = params.get('page', 0)
+        data = {}
 
-        url_characters = self._get_url(page)
         url_comics = self._get_url(page, type_url='comics')
+        if title:
+            data = {'number': number, 'year': year, 'comic': {}}
+            url_comics += f'&title={title}&issueNumber={number}&startYear={year}'
+            comic_item = self._get_marvel_data(url_comics)
+            if comic_item:
+                comic_item = comic_item[0]
+                comic = Comic.parse_obj({
+                    'id': comic_item['id'],
+                    'title': comic_item['title'],
+                    'image': f"{comic_item['thumbnail']['path']}.{comic_item['thumbnail']['extension']}",
+                    'on_sale_date': [obj['date'] for obj in comic_item['dates'] if obj.get('type') == 'onsaleDate'].pop()
+                })
+                data['comic'] = comic
+            return data
+
+        url_characters = self._get_url(page, type_url='characters')
+        if name:
+            data = {'character': {}}
+            url_characters += f'&name={name}'
+            character_item = self._get_marvel_data(url_characters)
+            if character_item:
+                character_item = character_item[0]
+                character = Character.parse_obj({
+                    'id': character_item['id'],
+                    'name': character_item['name'],
+                    'image': f"{character_item['thumbnail']['path']}.{character_item['thumbnail']['extension']}",
+                    'appearances': character_item['comics']['available']
+                })
+                data['character'] = character
+            return data
 
         comic_items = []
         comics = []
@@ -76,10 +110,8 @@ class GetRecordsUseCase(Functionalities):
             }) for item in character_items
         ]
 
-        data = {
-            'page': page,
-            'count': len(characters) + len(comics)
-        }
+        data['page'] = page
+        data['count'] = len(characters) + len(comics)
 
         if contains:
             data['count_comics'] = len(comics)
