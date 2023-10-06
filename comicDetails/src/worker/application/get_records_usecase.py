@@ -44,17 +44,27 @@ class GetRecordsUseCase(Functionalities):
         return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
 
     def _get_records(self, params: str):
-        name = params.get('name', '')
+        contains = params.get('contains', '')
         page = params.get('page', 0)
 
         url_characters = self._get_url(page)
         url_comics = self._get_url(page, type_url='comics')
-        comic_items = []
 
-        if name:
-            url_characters += f'&nameStartsWith={name}'
-            url_comics += f'&titleStartsWith={name}'
+        comic_items = []
+        comics = []
+
+        if contains:
+            url_characters += f'&nameStartsWith={contains}'
+            url_comics += f'&titleStartsWith={contains}'
             comic_items = self._get_marvel_data(url_comics)
+            comics = [
+                Comic.parse_obj({
+                    'id': item['id'],
+                    'title': item['title'],
+                    'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
+                    'on_sale_date': [obj['date'] for obj in item['dates'] if obj.get('type') == 'onsaleDate'].pop()
+                }) for item in comic_items
+            ]
 
         character_items = self._get_marvel_data(url_characters)
         characters = [
@@ -66,21 +76,12 @@ class GetRecordsUseCase(Functionalities):
             }) for item in character_items
         ]
 
-        comics = [
-            Comic.parse_obj({
-                'id': item['id'],
-                'title': item['title'],
-                'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
-                'on_sale_date': [obj['date'] for obj in item['dates'] if obj.get('type') == 'onsaleDate'].pop()
-            }) for item in comic_items
-        ]
-
         data = {
             'page': page,
             'count': len(characters) + len(comics)
         }
 
-        if name:
+        if contains:
             data['count_comics'] = len(comics)
             data['count_characters'] = len(characters)
             data['comics'] = comics

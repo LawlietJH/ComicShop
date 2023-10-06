@@ -4,5 +4,7 @@ from pydantic import BaseModel
 
 
 class Filter(BaseModel):
-    name: Optional[str]
+    contains: Optional[str]
     page: Optional[int]
+    comic: Optional[str]
+    character: Optional[str]
