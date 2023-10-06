@@ -32,7 +32,7 @@ class ValidateTokenUseCase(Functionalities):
         self.transaction_id = str(uuid.uuid4())
         self.init_time = time.perf_counter()
 
-    @autodynatrace.trace('GetRecordUseCase - execute')
+    @autodynatrace.trace('ValidateTokenUseCase - execute')
     @tracer.wrap(service='userauth', resource='execute')
     def execute(self, token: str) -> Response:
         self._set_logs()

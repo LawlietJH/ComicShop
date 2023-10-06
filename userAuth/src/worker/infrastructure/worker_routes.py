@@ -9,8 +9,7 @@ from worker.domain import (responses_liveness, responses_readiness,
 from worker.domain.entities import User, UserRegistration
 from worker.infrastructure import WorkerController
 
-# serviceName:
-# /namespace/v1/resource
+# userAuth: /users/api/v1/docs
 
 settings = get_settings()
 

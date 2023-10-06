@@ -2,6 +2,7 @@ import hashlib
 import time
 
 import autodynatrace
+from ddtrace import tracer
 from shared.infrastructure import ErrorResponse
 from shared.infrastructure.logs import Measurement
 from shared.infrastructure.utils import Utils
@@ -10,7 +11,8 @@ from .services.db_worker_service import DBWorkerService
 
 
 class Functionalities:
-    @autodynatrace.trace('Cart')
+    @autodynatrace.trace('Functionalities - _set_configs')
+    @tracer.wrap(service='userauth', resource='_set_configs')
     def _set_configs(self, db_service: DBWorkerService) -> None:
         self.db_error_details = db_service.get_error_details()
         if not self.db_error_details:
@@ -44,24 +46,3 @@ class Functionalities:
                           method: str = 'GET', object: dict = None) -> None:
         measurement = Measurement(f"{method}: {url}", time_elapsed)
         self._log_external.info(message, object, measurement)
-
-    # Logic Functions ----------------------------------------------------------
-
-    def _get_url(self, page=0, type_url='characters', id=None):
-        ID = f'/{id}' if id else ''
-        TIMESTAMP = int(time.time())
-        LIMIT = f'limit=100&offset={page*100}'
-        API_URL = 'http://gateway.marvel.com/v1/public'
-        API_PUB_KEY = self._settings.MARVEL_API_PUBLIC_KEY
-        API_PRIV_KEY = self._settings.MARVEL_API_PRIVATE_KEY
-
-        KEYS = str(TIMESTAMP) + API_PRIV_KEY + API_PUB_KEY
-        API_HASH = hashlib.md5(KEYS.encode("utf-8")).hexdigest()
-        API_PARAMS = f'ts={TIMESTAMP}&apikey={API_PUB_KEY}&hash={API_HASH}'
-        URL_CHARACTERS = f'{API_URL}/characters{ID}?{API_PARAMS}&orderBy=name&{LIMIT}'
-        URL_COMICS = f'{API_URL}/comics{ID}?{API_PARAMS}&orderBy=title&format=comic&formatType=comic&noVariants=true&{LIMIT}'
-
-        if type_url == 'characters':
-            return URL_CHARACTERS
-
-        return URL_COMICS
