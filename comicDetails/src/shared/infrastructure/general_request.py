@@ -11,7 +11,6 @@ from .utils import Utils
 
 
 class GeneralRequestServer:
-
     def __init__(self) -> None:
         self.headers = {'Content-Type': 'application/json',
                         'Connection': 'keep-alive'}

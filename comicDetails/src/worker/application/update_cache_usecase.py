@@ -11,7 +11,6 @@ from worker.domain import DBRepository
 
 
 class UpdateCacheUseCase:
-
     def __init__(self, db_worker_service: DBRepository, log: Log,
                  settings: Settings) -> None:
         self.__db_service = db_worker_service

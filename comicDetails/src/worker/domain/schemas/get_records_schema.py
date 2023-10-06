@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
 
 
-class HelloWorldSchema(BaseModel):
-    """ Liveness Schema """
+class RecordsSchema(BaseModel):
+    """ Records Schema """
     status: str = Field(
         default="Hello World",
         title="Status",
@@ -10,7 +10,7 @@ class HelloWorldSchema(BaseModel):
     )
 
 
-responses_get_comics = {
-    200: {'model': HelloWorldSchema},
+responses_get_records = {
+    200: {'model': RecordsSchema},
     422: {}
 }
