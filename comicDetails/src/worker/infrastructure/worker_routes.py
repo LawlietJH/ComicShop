@@ -3,9 +3,9 @@ from ddtrace import tracer
 from fastapi import APIRouter, Depends, Header
 from shared.infrastructure import HttpResponse
 from shared.infrastructure.settings import get_settings
-from worker.domain import (responses_hello_world, responses_liveness,
+from worker.domain import (responses_get_comics, responses_liveness,
                            responses_readiness)
-from worker.domain.entities import Person
+from worker.domain.entities import Filter
 from worker.infrastructure import WorkerController
 
 # serviceName:
@@ -16,7 +16,7 @@ settings = get_settings()
 version = settings.API_VERSION
 namespace = settings.NAMESPACE
 resource = settings.RESOURCE
-prefix = f'/{namespace}/{version}/{resource}'
+prefix = f'/{namespace}/api/{version}/{resource}'
 
 descriptions = {
     'liveness': "Verifica que el servicio se encuentre disponible.",
@@ -43,10 +43,19 @@ def readiness() -> HttpResponse:
     return WorkerController.readiness()
 
 
-@router.get('', tags=["Comic"], responses=responses_hello_world,
+@router.get('', tags=["Comics"], responses=responses_get_comics,
             summary=descriptions['get_comics'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='comicdetails', resource=f'GET {prefix}')
-def get_comics(filter: Person = Depends()) -> HttpResponse:
-    """ Devuelve un listado de comics. """
-    return WorkerController.get_comics(filter)
+def get_records(filter: Filter = Depends()) -> HttpResponse:
+    """ Devuelve todo un listado de personajes y/o comics. """
+    return WorkerController.get_records(filter)
+
+
+@router.get('/{id}', tags=["Comics"], responses=responses_get_comics,
+            summary=descriptions['get_comics'])
+@autodynatrace.trace(f'{prefix}')
+@tracer.wrap(service='comicdetails', resource=f'GET {prefix}/id')
+def get_record(id: int) -> HttpResponse:
+    """ Devuelve un personaje o un comic por su ID. """
+    return WorkerController.get_record(id)

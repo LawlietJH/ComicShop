@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     SERVICE_NAME: str = 'comicDetails'
     NAMESPACE: str = 'catalogs'
     API_VERSION: str = 'v1'
-    RESOURCE: str = 'comics'
+    RESOURCE: str = 'records'
     IMAGE_VERSION: str = '1.0.0'
     ENABLE_DOCS: bool = False
     PORT: int = 8001
@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     VERSION_LOG: str = 'v1'
     APPENDERS: str = 'console'
     # Http
+    MARVEL_API_PUBLIC_KEY: str
+    MARVEL_API_PRIVATE_KEY: str
     DEVELOPER_PORTAL_HTTP_ERRORS: str = 'http://...'
     HTTP_TIMEOUT_SEC: int = 15
 

@@ -2,8 +2,9 @@ import autodynatrace
 import container
 from ddtrace import tracer
 from shared.infrastructure import WorkerResponse
-from worker.application import (HelloWorldUseCase, ReadinessUseCase,
-                                UpdateCacheUseCase)
+from worker.application import (GetRecordsUseCase, GetRecordUseCase,
+                                ReadinessUseCase, UpdateCacheUseCase)
+from worker.domain.entities import Filter
 
 
 class WorkerController:
@@ -26,10 +27,19 @@ class WorkerController:
             return WorkerResponse(content=data)
 
     @staticmethod
-    @autodynatrace.trace('WorkerController - get_comics')
-    @tracer.wrap(service='comicdetails', resource='get_comics')
-    def get_comics(env: str = ''):
+    @autodynatrace.trace('WorkerController - get_records')
+    @tracer.wrap(service='comicdetails', resource='get_records')
+    def get_records(filter: Filter):
         with container.SingletonContainer.scope() as app:
-            use_case: HelloWorldUseCase = app.use_cases.hello_world()
-            data = use_case.execute(env)
+            use_case: GetRecordsUseCase = app.use_cases.get_records()
+            data = use_case.execute(filter)
+            return WorkerResponse(content=data)
+
+    @staticmethod
+    @autodynatrace.trace('WorkerController - get_record')
+    @tracer.wrap(service='comicdetails', resource='get_record')
+    def get_record(id: int):
+        with container.SingletonContainer.scope() as app:
+            use_case: GetRecordUseCase = app.use_cases.get_record()
+            data = use_case.execute(id)
             return WorkerResponse(content=data)

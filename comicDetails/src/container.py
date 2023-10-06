@@ -4,8 +4,9 @@ from typing import Optional
 from dependency_injector import containers, providers
 from shared.infrastructure import MongoDatabase, Settings
 from shared.infrastructure.logs import Log
-from worker.application import (DBWorkerService, HelloWorldUseCase,
-                                ReadinessUseCase, UpdateCacheUseCase)
+from worker.application import (DBWorkerService, GetRecordsUseCase,
+                                GetRecordUseCase, ReadinessUseCase,
+                                UpdateCacheUseCase)
 from worker.infrastructure import MongoWorkerRepository
 
 
@@ -38,8 +39,11 @@ class UseCasesContainer(containers.DeclarativeContainer):
     update_cache = providers.Factory(
         UpdateCacheUseCase, db_worker_service=services.db_worker_service,
         log=log, settings=settings)
-    hello_world = providers.Factory(
-        HelloWorldUseCase, db_worker_service=services.db_worker_service,
+    get_record = providers.Factory(
+        GetRecordUseCase, db_worker_service=services.db_worker_service,
+        log=log, settings=settings)
+    get_records = providers.Factory(
+        GetRecordsUseCase, db_worker_service=services.db_worker_service,
         log=log, settings=settings)
 
 

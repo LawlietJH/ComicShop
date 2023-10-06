@@ -1,3 +1,3 @@
-from .hello_world_schema import responses_hello_world
+from .get_comics_schema import responses_get_comics
 from .liveness_schema import responses_liveness
 from .readiness_schema import responses_readiness

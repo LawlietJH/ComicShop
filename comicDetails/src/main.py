@@ -19,7 +19,7 @@ api_version = settings.API_VERSION
 resource = settings.RESOURCE
 enable_docs = settings.ENABLE_DOCS
 
-prefix = f'/{namespace}/{api_version}/{resource}'
+prefix = f'/{namespace}/api/{api_version}/{resource}'
 
 description = """
 

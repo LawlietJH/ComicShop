@@ -21,7 +21,7 @@ class ReadinessUseCase:
         self.init_time = time.perf_counter()
 
     @autodynatrace.trace('ReadinessUseCase - execute')
-    @tracer.wrap(service='comicDetails', resource='execute')
+    @tracer.wrap(service='comicdetails', resource='execute')
     def execute(self) -> Response:
         self._set_logs()
 

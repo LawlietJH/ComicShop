@@ -21,7 +21,7 @@ class UpdateCacheUseCase:
         self.init_time = time.perf_counter()
 
     @autodynatrace.trace('UpdateCacheUseCase - execute')
-    @tracer.wrap(service='comicDetails', resource='execute')
+    @tracer.wrap(service='comicdetails', resource='execute')
     def execute(self) -> Response:
         self._set_logs()
 
