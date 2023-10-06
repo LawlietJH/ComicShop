@@ -17,9 +17,8 @@ class Utils:
 
     @staticmethod
     def discard_empty_attributes(obj) -> None:
-        """ Removes all attributes of the object that represent a value of
-        type 'False': None, False, 0, '', [], (], {}. value of type 'False':
-        None, False, 0, '', [], (), {}. """
+        """ Removes all attributes of the object that represent a
+            value of type 'False': None, False, 0, '', [], (], {}. """
         obj_copy = obj.__dict__.copy()
         for key, value in obj_copy.items():
             if not value:

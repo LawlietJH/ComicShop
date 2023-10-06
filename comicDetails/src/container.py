@@ -2,7 +2,6 @@ from contextlib import contextmanager
 from typing import Optional
 
 from dependency_injector import containers, providers
-
 from shared.infrastructure import MongoDatabase, Settings
 from shared.infrastructure.logs import Log
 from worker.application import (DBWorkerService, HelloWorldUseCase,
@@ -18,16 +17,6 @@ class RepositoriesContainer(containers.DeclarativeContainer):
         app_name=settings.provided.SERVICE_NAME,
         max_pool_size=settings.provided.MONGO_MAX_POOL_SIZE,
         timeout=settings.provided.MONGO_TIMEOUT_MS)
-    # TODO: remove this if it is not used: examples of use of repositories, in
-    #  case of requiring redis or firebase it is also necessary to import
-    #  the required classes
-    # cache = providers.Singleton(
-    #     RedisDatabase, redis_uri=settings.provided.REDIS)
-    # realtime_db = providers.Singleton(
-    #     FirebaseRealTimeDatabase,
-    #     default_db=settings.provided.FIREBASE_DEFAULT_DB,
-    #     key_path=settings.provided.FIREBASE_KEY_PATH,
-    #     timeout=settings.provided.FIREBASE_TIMEOUT_SEC)
     db_worker_repository = providers.Singleton(
         MongoWorkerRepository, session_factory=mongo_db.provided.session)
 

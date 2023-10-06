@@ -1,8 +1,7 @@
+import container
 import uvicorn
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-
-import container
 from shared.infrastructure import (ErrorResponse, error_exception_handler,
                                    internal_server_error_exception_handler,
                                    method_not_allowed_exception_handler,
@@ -22,7 +21,6 @@ enable_docs = settings.ENABLE_DOCS
 
 prefix = f'/{namespace}/{api_version}/{resource}'
 
-# TODO: Add microservice description
 description = """
 
     Creado con FastAPI y Arquitectura Hexagonal.
@@ -70,11 +68,6 @@ app = FastAPI(
 app.add_exception_handler(ErrorResponse, error_exception_handler)
 app.add_exception_handler(RequestValidationError, parameter_exception_handler)
 app.include_router(router)
-
-# TODO: Eliminar estos comentarios.
-# Ejemplo de como ver la ruta de la documentación.
-# /namespace/v1/resource_name/docs
-# print(f"DOCS: {app.docs_url}")
 
 if __name__ == '__main__':
     uvicorn.run('main:app', host='0.0.0.0',

@@ -3,7 +3,7 @@ from shared.infrastructure.settings import get_settings
 settings = get_settings()
 
 config = {
-    'monitorInterval': 10,  # auto reload time interval [secs]
+    'monitorInterval': 10,
     'loggers': {
         'root': {
             'level': 'INFO',
