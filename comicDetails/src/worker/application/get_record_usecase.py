@@ -45,12 +45,10 @@ class GetRecordUseCase(Functionalities):
     def _get_record(self, id: int):
         data = {}
 
-        url_characters = self._get_url(id=id)
         url_comics = self._get_url(type_url='comics', id=id)
+        url_characters = self._get_url(id=id)
 
         comic_item = self._get_marvel_data(url_comics)
-        character_item = self._get_marvel_data(url_characters)
-
         if comic_item:
             comic = Comic.parse_obj({
                 'id': comic_item['id'],
@@ -59,8 +57,10 @@ class GetRecordUseCase(Functionalities):
                 'on_sale_date': [obj['date'] for obj in comic_item['dates'] if obj.get('type') == 'onsaleDate'].pop()
             })
             data['comic'] = comic
+            return data
 
-        elif character_item:
+        character_item = self._get_marvel_data(url_characters)
+        if character_item:
             character = Character.parse_obj({
                 'id': character_item['id'],
                 'name': character_item['name'],
@@ -68,11 +68,10 @@ class GetRecordUseCase(Functionalities):
                 'appearances': character_item['comics']['available']
             })
             data['character'] = character
-        else:
-            raise ErrorResponse(None, f"Personaje o Comic con el id '{id}' no encontrado.",
-                                self.transaction_id, 404)
+            return data
 
-        return data
+        raise ErrorResponse(None, f"Personaje o Comic con el id '{id}' no encontrado.",
+                            self.transaction_id, 404)
 
     # General Request ----------------------------------------------------------
 
