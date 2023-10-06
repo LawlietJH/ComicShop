@@ -8,13 +8,5 @@ class DBRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def get_general_config(self, log) -> dict:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_service_config(self, log) -> dict:
-        raise NotImplementedError
-
-    @abstractmethod
     def get_error_details(self, log) -> dict:
         raise NotImplementedError

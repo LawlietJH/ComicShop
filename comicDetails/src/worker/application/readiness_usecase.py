@@ -4,7 +4,6 @@ import uuid
 
 import autodynatrace
 from ddtrace import tracer
-
 from shared.domain.response import FailureResponse, Response, SuccessResponse
 from shared.infrastructure import Settings, Utils
 from shared.infrastructure.logs import Log, Measurement
@@ -22,11 +21,11 @@ class ReadinessUseCase:
         self.init_time = time.perf_counter()
 
     @autodynatrace.trace('ReadinessUseCase - execute')
-    @tracer.wrap(service='basetemplate', resource='execute')
+    @tracer.wrap(service='comicdetails', resource='execute')
     def execute(self) -> Response:
         self._set_logs()
 
-        self._log.info("Start: /service_name/readiness")
+        self._log.info("Start: /comics/readiness")
 
         if not self.__db_service.is_alive():
             time_elapsed = Utils.get_time_elapsed_ms(self.init_time)
@@ -37,11 +36,7 @@ class ReadinessUseCase:
                 measurement=Measurement('MongoDB', time_elapsed, 'Error'))
             return FailureResponse(
                 {'user_message': "Error de conexión a mongo"}, 500,
-                self.transaction_id,
-                **{'error_code': 100})
-
-        # TODO: If the microservice makes use of other services such as
-        #  firebase or redis, they must be validated here as well.
+                self.transaction_id, error_code=100)
 
         total_time_elapsed = Utils.get_time_elapsed_ms(self.init_time)
 

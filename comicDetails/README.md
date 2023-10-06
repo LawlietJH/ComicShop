@@ -72,24 +72,21 @@ pip install -r requirements.txt
 Archivo: **.env.sample**
 ```bash
 # APP:
-export APP_NAME=appcoppel
-export SERVICE_NAME=baseTemplate
-export NAMESPACE=namespace
+export APP_NAME=ComicShop
+export SERVICE_NAME=comicDetails
+export NAMESPACE=catalogs
 export API_VERSION=v1
-export RESOURCE=resource
+export RESOURCE=comics
 export IMAGE_VERSION=1.0.0
 export ENABLE_DOCS=true
-export PORT=8000
+export PORT=8001
 export RELOAD=true
 
 # MONGO:
-export MONGO_DB_NAME=configuraciones_appcom
+export MONGO_DB_NAME=users
 export MONGO_TIMEOUT_MS=500
 export MONGO_MAX_POOL_SIZE=20
-export MONGO_ID_GLOBAL_CONFIG=globalConfig
-export MONGO_ID_GENERAL_CONFIG=general
 export MONGO_ID_ERROR_DETAILS=errorDetails
-export MONGO_ID_SERVICE_CONFIG=idDelDocumento
 
 # REDIS:
 export REDIS_EXPIRATION_MINS=1440
@@ -211,7 +208,7 @@ Para poder hacer un análisis de cobertura en un proyecto de SonarQube es necesa
 
 Archivo: **sonar-project.properties**
 ```
-sonar.projectKey=baseTemplate
+sonar.projectKey=comicDetails
 sonar.host.url=http://localhost:9000
 sonar.token=sqp_0123456789abcdef0123456789abcdef01234567
 sonar.sources=src/worker

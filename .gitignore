@@ -175,3 +175,6 @@ cython_debug/
 
 # Sonar Properties
 sonar-project.properties
+
+# Others
+workerenv/

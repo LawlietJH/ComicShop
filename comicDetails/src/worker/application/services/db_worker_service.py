@@ -10,11 +10,5 @@ class DBWorkerService(DBRepository):
     def is_alive(self, **kwargs) -> bool:
         return self.__db_repository.is_alive(self.log, **kwargs)
 
-    def get_general_config(self, **kwargs) -> dict:
-        return self.__db_repository.get_general_config(self.log, **kwargs)
-
-    def get_service_config(self, **kwargs) -> dict:
-        return self.__db_repository.get_service_config(self.log, **kwargs)
-
     def get_error_details(self, **kwargs) -> dict:
         return self.__db_repository.get_error_details(self.log, **kwargs)
