@@ -54,7 +54,8 @@ class GetRecordsUseCase(Functionalities):
 
         url_comics = self._get_url(page, type_url='comics')
         if title:
-            data = {'number': number, 'year': year, 'comic': {}}
+            data = {'title': title, 'number': number,
+                    'year': year, 'comic': {}}
             url_comics += f'&title={title}&issueNumber={number}&startYear={year}'
             comic_item = self._get_marvel_data(url_comics)
             if comic_item:
