@@ -25,7 +25,7 @@ class ReadinessUseCase:
     def execute(self) -> Response:
         self._set_logs()
 
-        self._log.info("Start: /comics/readiness")
+        self._log.info("Start: /records/readiness")
 
         if not self.__db_service.is_alive():
             time_elapsed = Utils.get_time_elapsed_ms(self.init_time)

@@ -10,7 +10,6 @@ from .services.db_worker_service import DBWorkerService
 
 
 class Functionalities:
-
     @autodynatrace.trace('Cart')
     def _set_configs(self, db_service: DBWorkerService) -> None:
         self.db_error_details = db_service.get_error_details()

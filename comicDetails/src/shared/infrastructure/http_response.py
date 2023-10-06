@@ -1,18 +1,9 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-
 from shared.domain.response import Response
 
 
 class HttpResponse(JSONResponse):
-    """
-    Class used to obtain and return valid http responses according to our
-    standard.
-
-    Parameters:
-        status_code: integer with status code to return
-        content: content of the response
-    """
     def __init__(self, status_code: int, content: Response,
                  excludes: set = None, *args, **kwargs) -> None:
         if excludes is None:
@@ -23,6 +14,7 @@ class HttpResponse(JSONResponse):
             status_code=status_code,
             *args, **kwargs,
         )
+
 
 class WorkerResponse(HttpResponse):
     def __init__(self, content: Response) -> None:

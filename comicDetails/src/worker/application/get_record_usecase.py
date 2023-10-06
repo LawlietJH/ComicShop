@@ -107,3 +107,4 @@ class GetRecordUseCase(Functionalities):
         self._log_external = copy.deepcopy(self._log)
         self._log_external.log_origin = 'EXTERNAL'
         self._general_request.log = self._log_external
+        self.__db_service.log = self._log_external

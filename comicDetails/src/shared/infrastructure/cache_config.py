@@ -1,12 +1,4 @@
 class CachedConfig(object):
-    """
-    Class to be used as decorator to store and access function cache, this
-    will be used especially to avoid recurring external connections like to
-    MongoDB.
-
-    Attributes
-    cached_responses: Dictionary that will cache the answers per function
-    """
     cached_responses: dict = {}
 
     def __call__(self, func):
@@ -17,7 +9,7 @@ class CachedConfig(object):
             is_cached = self.cached_responses.get(full_name) is not None
             if is_cached:
                 is_cached = self.cached_responses.get(full_name)[
-                                'data'] is not None
+                    'data'] is not None
             if test:
                 del kwargs['test']
                 return func(*args, **kwargs)

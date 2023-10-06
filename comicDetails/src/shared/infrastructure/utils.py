@@ -2,7 +2,6 @@ import time
 
 
 class Utils:
-
     @staticmethod
     def get_method_name(obj, func_name: str = '') -> str:
         obj_class_name = f"{obj.__class__.__module__}." \
