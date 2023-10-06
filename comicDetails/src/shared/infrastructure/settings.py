@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     RELOAD: bool = False
     # Mongo
     MONGO_URI: str
-    MONGO_DB_NAME: str = 'users'
+    MONGO_DB_NAME: str = 'configs'
     MONGO_TIMEOUT_MS: int = 500
     MONGO_MAX_POOL_SIZE: int = 20
     MONGO_ID_ERROR_DETAILS: str = 'errorDetails'

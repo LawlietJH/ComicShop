@@ -51,7 +51,7 @@ class MongoWorkerRepository(DBRepository):
 
         with self.session_factory() as session:
             db = session.get_db(db_name=settings.MONGO_DB_NAME)
-            collection = db.configuraciones
+            collection = db.configs
             document_id = {'_id': settings.MONGO_ID_ERROR_DETAILS}
             results = collection.find_one(document_id)
 
