@@ -26,7 +26,8 @@ description = """
     Creado con FastAPI y Arquitectura Hexagonal.
     Python: 3.11.0
 
-**Microservice description.**
+**Permite obtener un listado de Detalles de Comics con posible filtrado por
+nombre de personajes o titulo de comic.**
 """
 
 tags_metadata = [
@@ -36,8 +37,8 @@ tags_metadata = [
                        "sobre el estado, disponibilidad y latencia en tiempo real.",
     },
     {
-        'name': 'HelloWorld',
-        'description': "Servicio de prueba. Descripción genérica para los endpoints.",
+        'name': 'Comics',
+        'description': "Permite obtener un listado de Comics.",
     }
 ]
 
