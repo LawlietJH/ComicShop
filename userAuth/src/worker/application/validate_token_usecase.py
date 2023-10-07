@@ -1,4 +1,3 @@
-import asyncio
 import copy
 import json
 import time
@@ -14,7 +13,6 @@ from shared.infrastructure import ErrorResponse, Settings
 from shared.infrastructure.logs import Log, Measurement
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
-from worker.domain.entities import UserRegistration
 from worker.domain.schemas import SecuritySchema
 
 from .functionalities import Functionalities

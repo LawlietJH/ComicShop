@@ -146,7 +146,7 @@ class GetRecordsUseCase(Functionalities):
             raise ErrorResponse(**self._error_attributes(102),
                                 details=adds['reason'])
 
-        self._request_log_info(adds['url'], "Success getting characters data.",
+        self._request_log_info(adds['url'], "Success getting records data.",
                                adds['time_elapsed'], 'GET')
 
         return response['response']['data']['results']

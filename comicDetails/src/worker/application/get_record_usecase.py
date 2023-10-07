@@ -95,7 +95,7 @@ class GetRecordUseCase(Functionalities):
                                     adds['reason'], 'GET')
             return
 
-        self._request_log_info(adds['url'], "Success getting characters data.",
+        self._request_log_info(adds['url'], "Success getting record data.",
                                adds['time_elapsed'], 'GET')
 
         return response['response']['data']['results'][0]
