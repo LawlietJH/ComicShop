@@ -42,7 +42,16 @@ class GetLayawayUseCase(Functionalities):
 
     def _get_data(self, token: str) -> dict:
         user = self._get_user(token)
-        layaway = self.__db_service.get_layaway(user_id=user.id)
+        layaway_data = self.__db_service.get_layaway(user_id=user.id)
+        if not layaway_data:
+            raise ErrorResponse(None, "Error getting layaway",
+                                self.transaction_id, 500)
+        layaway_data = layaway_data['layaway']
+        layaway = {
+            'user_id': user.id,
+            'username': user.username,
+            'layaway': layaway_data
+        }
         return layaway
 
     # General Request ----------------------------------------------------------
