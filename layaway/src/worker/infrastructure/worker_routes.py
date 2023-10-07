@@ -23,6 +23,7 @@ descriptions = {
     'liveness': "Verifica que el servicio se encuentre disponible.",
     'readiness': "Verifica que existan conexiones activas a MONGO/REDIS/FIREBASE.",
     'set_layaway': "Agrega un cómic al apartado.",
+    'get_layaway': "Obtiene el apartado de cómics del usuario."
 }
 
 router = APIRouter(prefix=prefix)
@@ -47,9 +48,19 @@ def readiness() -> HttpResponse:
 @router.post(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
              summary=descriptions['set_layaway'])
 @autodynatrace.trace(f'{prefix}')
-@tracer.wrap(service='userauth', resource=f'POST {prefix}')
+@tracer.wrap(service='userauth', resource=f'POST {prefix}/{resource}')
 def set_layaway(body: Layaway,
                 authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
     """ Agrega un cómic al apartado. """
     token = authorization.credentials
     return WorkerController.set_layaway(token, body)
+
+
+@router.get(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
+            summary=descriptions['get_layaway'])
+@autodynatrace.trace(f'{prefix}')
+@tracer.wrap(service='userauth', resource=f'GET {prefix}/{resource}')
+def get_layaway(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
+    """ Obtiene el apartado de cómics del usuario. """
+    token = authorization.credentials
+    return WorkerController.get_layaway(token)

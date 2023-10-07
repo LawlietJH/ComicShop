@@ -4,8 +4,9 @@ from typing import Optional
 from dependency_injector import containers, providers
 from shared.infrastructure import MongoDatabase, Settings
 from shared.infrastructure.logs import Log
-from worker.application import (DBWorkerService, ReadinessUseCase,
-                                SetLayawayUseCase, UpdateCacheUseCase)
+from worker.application import (DBWorkerService, GetLayawayUseCase,
+                                ReadinessUseCase, SetLayawayUseCase,
+                                UpdateCacheUseCase)
 from worker.infrastructure import MongoWorkerRepository
 
 
@@ -40,6 +41,9 @@ class UseCasesContainer(containers.DeclarativeContainer):
         log=log, settings=settings)
     set_layaway = providers.Factory(
         SetLayawayUseCase, db_worker_service=services.db_worker_service,
+        log=log, settings=settings)
+    get_layaway = providers.Factory(
+        GetLayawayUseCase, db_worker_service=services.db_worker_service,
         log=log, settings=settings)
 
 
