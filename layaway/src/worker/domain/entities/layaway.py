@@ -2,4 +2,4 @@ from pydantic import BaseModel
 
 
 class Layaway(BaseModel):
-    id: int
+    comic_id: int

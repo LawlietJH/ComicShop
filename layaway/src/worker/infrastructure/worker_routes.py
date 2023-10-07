@@ -48,6 +48,8 @@ def readiness() -> HttpResponse:
              summary=descriptions['set_layaway'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='userauth', resource=f'POST {prefix}')
-def set_layaway(body: Layaway) -> HttpResponse:
+def set_layaway(body: Layaway,
+                authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
     """ Agrega un cómic al apartado. """
-    return WorkerController.set_layaway(body)
+    token = authorization.credentials
+    return WorkerController.set_layaway(token, body)

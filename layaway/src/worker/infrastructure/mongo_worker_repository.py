@@ -70,16 +70,16 @@ class MongoWorkerRepository(DBRepository):
 
             return results['errors']
 
-    def get_user(self, username: str, log: Log) -> dict | None:
+    def get_layaway(self, user_id: str, log: Log) -> dict | None:
         init_time = time.perf_counter()
 
         if not self.check_db():
             return
 
         with self.session_factory() as session:
-            db = session.get_db(db_name=settings.MONGO_DB_NAME_USERS)
-            collection = db.users
-            query = {'username': username}
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            collection = db.layaway
+            query = {'_id': user_id}
             result = collection.find_one(query)
 
             time_elapsed = Utils.get_time_elapsed_ms(init_time)
@@ -88,23 +88,41 @@ class MongoWorkerRepository(DBRepository):
                 return {}
 
             measurement = Measurement('MongoDB', time_elapsed)
-            log.info('Mongo: Get User', query, measurement)
+            log.info('Mongo: Get Layaway', query, measurement)
 
             return result
 
-    def create_user(self, user_data: dict, log: Log) -> bool | None:
+    def create_layaway(self, user_data: dict, log: Log) -> bool | None:
         init_time = time.perf_counter()
 
         if not self.check_db():
             return
 
         with self.session_factory() as session:
-            db = session.get_db(db_name=settings.MONGO_DB_NAME_USERS)
-            collection = db.users
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            collection = db.layaway
             collection.insert_one(user_data)
 
             time_elapsed = Utils.get_time_elapsed_ms(init_time)
             measurement = Measurement('MongoDB', time_elapsed)
-            log.info('Mongo: Create user', None, measurement)
+            log.info('Mongo: Create Layaway', None, measurement)
+
+            return True
+
+    def update_layaway(self, user_id: int, comic: dict, log: Log) -> bool | None:
+        init_time = time.perf_counter()
+
+        if not self.check_db():
+            return
+
+        with self.session_factory() as session:
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            collection = db.layaway
+            collection.update_one({'_id': user_id},
+                                  {'$push': {'layaway': comic}})
+
+            time_elapsed = Utils.get_time_elapsed_ms(init_time)
+            measurement = Measurement('MongoDB', time_elapsed)
+            log.info('Mongo: Added Comic in Layaway', None, measurement)
 
             return True

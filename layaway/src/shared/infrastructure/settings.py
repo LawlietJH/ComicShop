@@ -12,11 +12,12 @@ class Settings(BaseSettings):
     RESOURCE: str = 'layaway'
     IMAGE_VERSION: str = '1.0.0'
     ENABLE_DOCS: bool = False
-    PORT: int = 8000
+    PORT: int = 8002
     RELOAD: bool = False
     # Mongo
     MONGO_URI: str
     MONGO_DB_NAME: str = 'configs'
+    MONGO_DB_NAME_LAYAWAY: str = 'layaway'
     MONGO_TIMEOUT_MS: int = 500
     MONGO_MAX_POOL_SIZE: int = 20
     MONGO_ID_ERROR_DETAILS: str = 'errorDetails'

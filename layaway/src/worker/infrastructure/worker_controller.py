@@ -29,8 +29,8 @@ class WorkerController:
     @staticmethod
     @autodynatrace.trace('WorkerController - singup')
     @tracer.wrap(service='userauth', resource='singup')
-    def set_layaway(body: Layaway):
+    def set_layaway(token: str, body: Layaway):
         with container.SingletonContainer.scope() as app:
             use_case: SetLayawayUseCase = app.use_cases.set_layaway()
-            data = use_case.execute(body)
+            data = use_case.execute(token, body)
             return WorkerResponse(content=data)

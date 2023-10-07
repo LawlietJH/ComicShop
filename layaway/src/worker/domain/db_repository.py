@@ -14,9 +14,13 @@ class DBRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def get_user(self, username: str, log: Log) -> dict:
+    def get_layaway(self, user_id: int, log: Log) -> dict:
         raise NotImplementedError
 
     @abstractmethod
-    def create_user(self, user_data: dict, log: Log) -> dict:
+    def create_layaway(self, user_data: dict, log: Log) -> dict:
+        raise NotImplementedError
+
+    @abstractmethod
+    def update_layaway(self, user_id: int, comic: dict, log: Log) -> dict:
         raise NotImplementedError

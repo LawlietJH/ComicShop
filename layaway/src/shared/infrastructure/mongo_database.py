@@ -52,5 +52,5 @@ class MongoDatabase(Database):
 
     @contextmanager
     def session(self) -> Iterator[Session]:
-        with suppress(Exception):
-            yield self.__session
+        # with suppress(Exception):
+        yield self.__session
