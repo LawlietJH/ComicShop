@@ -1,4 +1,3 @@
-import asyncio
 import copy
 import json
 import time
@@ -14,7 +13,6 @@ from shared.infrastructure import ErrorResponse, Settings
 from shared.infrastructure.logs import Log, Measurement
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
-from worker.domain.entities import UserRegistration
 from worker.domain.schemas import SecuritySchema
 
 from .functionalities import Functionalities
@@ -32,7 +30,7 @@ class ValidateTokenUseCase(Functionalities):
         self.transaction_id = str(uuid.uuid4())
         self.init_time = time.perf_counter()
 
-    @autodynatrace.trace('GetRecordUseCase - execute')
+    @autodynatrace.trace('ValidateTokenUseCase - execute')
     @tracer.wrap(service='userauth', resource='execute')
     def execute(self, token: str) -> Response:
         self._set_logs()

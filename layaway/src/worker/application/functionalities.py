@@ -12,7 +12,7 @@ from .services.db_worker_service import DBWorkerService
 
 class Functionalities:
     @autodynatrace.trace('Functionalities - _set_configs')
-    @tracer.wrap(service='userauth', resource='_set_configs')
+    @tracer.wrap(service='layaway', resource='_set_configs')
     def _set_configs(self, db_service: DBWorkerService) -> None:
         self.db_error_details = db_service.get_error_details()
         if not self.db_error_details:

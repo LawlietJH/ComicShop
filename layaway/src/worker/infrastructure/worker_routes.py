@@ -4,25 +4,26 @@ from fastapi import APIRouter, Depends, Header
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from shared.infrastructure import HttpResponse
 from shared.infrastructure.settings import get_settings
-from worker.domain import (responses_liveness, responses_readiness,
-                           responses_singup)
-from worker.domain.entities import User, UserRegistration
+from worker.domain import (responses_layaway, responses_liveness,
+                           responses_readiness)
+from worker.domain.entities import Layaway
 from worker.infrastructure import WorkerController
 
-# userAuth: /users/api/v1/docs
+# serviceName:
+# /namespace/v1/resource
 
 settings = get_settings()
 
 version = settings.API_VERSION
 namespace = settings.NAMESPACE
+resource = settings.RESOURCE
 prefix = f'/{namespace}/api/{version}'
 
 descriptions = {
     'liveness': "Verifica que el servicio se encuentre disponible.",
     'readiness': "Verifica que existan conexiones activas a MONGO/REDIS/FIREBASE.",
-    'singup': "Registra un nuevo usuario.",
-    'login': "Inicio de sesión del usuario.",
-    'validate_token': "Valida un token y devuelve un payload."
+    'set_layaway': "Agrega un cómic al apartado.",
+    'get_layaway': "Obtiene el apartado de cómics del usuario."
 }
 
 router = APIRouter(prefix=prefix)
@@ -44,29 +45,22 @@ def readiness() -> HttpResponse:
     return WorkerController.readiness()
 
 
-@router.post('/singup', tags=["Comics"], responses=responses_singup,
-             summary=descriptions['singup'])
+@router.post(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
+             summary=descriptions['set_layaway'])
 @autodynatrace.trace(f'{prefix}')
-@tracer.wrap(service='userauth', resource=f'POST {prefix}')
-def singup(user: UserRegistration) -> HttpResponse:
-    """ Registra un usuario. """
-    return WorkerController.singup(user)
-
-
-@router.post('/login', tags=["Comics"], responses=responses_singup,
-             summary=descriptions['login'])
-@autodynatrace.trace(f'{prefix}')
-@tracer.wrap(service='userauth', resource=f'POST {prefix}')
-def login(user: User) -> HttpResponse:
-    """ Obtiene un Token. """
-    return WorkerController.login(user)
-
-
-@router.get('/keys', tags=["Comics"], responses=responses_singup,
-            summary=descriptions['validate_token'])
-@autodynatrace.trace(f'{prefix}')
-@tracer.wrap(service='userauth', resource=f'GET {prefix}')
-def validate_token(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
-    """ Valida un Token. """
+@tracer.wrap(service='userauth', resource=f'POST {prefix}/{resource}')
+def set_layaway(body: Layaway,
+                authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
+    """ Agrega un cómic al apartado. """
     token = authorization.credentials
-    return WorkerController.validate_token(token)
+    return WorkerController.set_layaway(token, body)
+
+
+@router.get(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
+            summary=descriptions['get_layaway'])
+@autodynatrace.trace(f'{prefix}')
+@tracer.wrap(service='userauth', resource=f'GET {prefix}/{resource}')
+def get_layaway(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
+    """ Obtiene el apartado de cómics del usuario. """
+    token = authorization.credentials
+    return WorkerController.get_layaway(token)

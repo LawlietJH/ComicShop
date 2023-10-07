@@ -1,4 +1,3 @@
-import asyncio
 import copy
 import time
 import uuid
@@ -30,7 +29,7 @@ class LoginUseCase(Functionalities):
         self.transaction_id = str(uuid.uuid4())
         self.init_time = time.perf_counter()
 
-    @autodynatrace.trace('GetRecordUseCase - execute')
+    @autodynatrace.trace('LoginUseCase - execute')
     @tracer.wrap(service='userauth', resource='execute')
     def execute(self, user: UserRegistration) -> Response:
         self._set_logs()

@@ -5,7 +5,7 @@ import uuid
 
 import autodynatrace
 from ddtrace import tracer
-from shared.domain import FailureResponse, Response, SuccessResponse
+from shared.domain import Response, SuccessResponse
 from shared.infrastructure import ErrorResponse, GeneralRequestServer, Settings
 from shared.infrastructure.logs import Log
 from shared.infrastructure.utils import Utils
@@ -95,7 +95,7 @@ class GetRecordUseCase(Functionalities):
                                     adds['reason'], 'GET')
             return
 
-        self._request_log_info(adds['url'], "Success getting characters data.",
+        self._request_log_info(adds['url'], "Success getting record data.",
                                adds['time_elapsed'], 'GET')
 
         return response['response']['data']['results'][0]
