@@ -77,7 +77,7 @@ class MongoWorkerRepository(DBRepository):
             return
 
         with self.session_factory() as session:
-            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_ORDERS)
             collection = db.layaway
             query = {'_id': user_id}
             result = collection.find_one(query)
@@ -99,7 +99,7 @@ class MongoWorkerRepository(DBRepository):
             return
 
         with self.session_factory() as session:
-            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_ORDERS)
             collection = db.layaway
             collection.insert_one(user_data)
 
@@ -116,7 +116,7 @@ class MongoWorkerRepository(DBRepository):
             return
 
         with self.session_factory() as session:
-            db = session.get_db(db_name=settings.MONGO_DB_NAME_LAYAWAY)
+            db = session.get_db(db_name=settings.MONGO_DB_NAME_ORDERS)
             collection = db.layaway
             collection.update_one({'_id': user_id},
                                   {'$push': {'layaway': comic}})

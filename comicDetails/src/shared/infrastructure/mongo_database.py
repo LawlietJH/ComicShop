@@ -1,6 +1,7 @@
 from collections.abc import Iterator
 from contextlib import contextmanager, suppress
 
+import certifi
 from pymongo import MongoClient
 from shared.domain.database import Database, Session
 
@@ -8,6 +9,7 @@ from .settings import get_settings
 from .utils import Utils
 
 settings = get_settings()
+ca = certifi.where()
 
 
 class MongoSession(Session):
@@ -15,7 +17,8 @@ class MongoSession(Session):
         self.mongo_uri = db_uri
         self.__client = MongoClient(
             self.mongo_uri, maxPoolSize=max_pool_size,
-            serverSelectionTimeoutMS=timeout, appName=app_name)
+            serverSelectionTimeoutMS=timeout, appName=app_name,
+            tlsCAFile=ca)
 
     def __enter__(self):
         return self
@@ -52,6 +55,5 @@ class MongoDatabase(Database):
 
     @contextmanager
     def session(self) -> Iterator[Session]:
-        """ Function used to obtain Mongo sessions """
         with suppress(Exception):
             yield self.__session
