@@ -7,7 +7,7 @@ import autodynatrace
 from ddtrace import tracer
 from shared.domain import Response, SuccessResponse
 from shared.infrastructure import ErrorResponse, GeneralRequestServer, Settings
-from shared.infrastructure.logs import Log, Measurement
+from shared.infrastructure.logs import Log
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
 from worker.domain.entities import Comic, Layaway, User
@@ -143,4 +143,5 @@ class SetLayawayUseCase(Functionalities):
         self._log.tracing_id = self.transaction_id
         self._log_external = copy.deepcopy(self._log)
         self._log_external.log_origin = 'EXTERNAL'
+        self._general_request.log = self._log_external
         self.__db_service.log = self._log_external
