@@ -64,6 +64,3 @@ class TestIntegrationWorkerController:
         assert isinstance(response['meta'], dict)
         assert response['_status_code'] == 200
         assert response['data']['status'] == 'Mongo is alive'
-
-    # TODO: You need to add here each of your use cases and their possible
-    #  responses

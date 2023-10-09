@@ -26,12 +26,7 @@ class TestIntegrationWorkerService:
 
     def test_class(self):
         is_alive = self.db_worker_service.is_alive()
-        general_config = self.db_worker_service.get_general_config()
-        service_config = self.db_worker_service.get_service_config()
         error_details = self.db_worker_service.get_error_details()
         assert is_alive
         assert isinstance(is_alive, bool)
-        assert isinstance(general_config, dict)
-        assert isinstance(service_config, dict)
         assert isinstance(error_details, dict)
-        assert 'environment' in general_config

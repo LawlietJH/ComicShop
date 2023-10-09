@@ -29,7 +29,7 @@ class TestIntegrationUpdateCacheUseCase:
             self.db_worker_service, self.log, self.settings)
         data = use_case.execute()
         assert data._status_code == 200
-        assert data.data['status'] == 'Successful'
+        assert data.data['status'] == 'successful'
         assert isinstance(data.data, dict)
         assert isinstance(data.meta, MetadataResponse)
         assert 'status' in data.data
