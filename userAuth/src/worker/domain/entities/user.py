@@ -52,7 +52,7 @@ class UserRegistration(BaseModel):
         return v
 
 
-class User(BaseModel):
+class UserLogin(BaseModel):
     username: str
     password: str
 
