@@ -63,7 +63,7 @@ class GetLayawayUseCase(Functionalities):
         elif filter.order_by == 'date':
             layaway_data = sorted(layaway_data, reverse=filter.reverse,
                                   key=lambda item: item['on_sale_date'])
-        elif filter.order_by == 'title':
+        elif filter.order_by in ('title', 'name'):
             layaway_data = sorted(layaway_data, reverse=filter.reverse,
                                   key=lambda item: item['title'])
 
