@@ -326,19 +326,26 @@ Resultados de `data` (200 OK):
 
 Para correr todas las imagenes:
 
+Docker Compose:
+
+    docker-compose up
+
+
+Para correr todas las imagenes de forma indiciduales:
+
 Docker Pull:
 
-	docker pull /comicshop-comicdetails:latest
-	docker pull /comicshop-userauth:latest
-	docker pull /comicshop-layaway:latest
+	docker pull ivanromeroa/comicshop-comicdetails:latest
+	docker pull ivanromeroa/comicshop-userauth:latest
+	docker pull ivanromeroa/comicshop-layaway:latest
 
 Docker Run:
 
-    docker run -d -p 8000:8000 enylaine/comicshop-comicdetails
-    docker run -d -p 8001:8001 enylaine/comicshop-userauth
-    docker run -d -p 8002:8002 enylaine/comicshop-layaway
+    docker run -d -p 8000:8000 ivanromeroa/comicshop-comicdetails
+    docker run -d -p 8001:8001 ivanromeroa/comicshop-userauth
+    docker run -d -p 8002:8002 ivanromeroa/comicshop-layaway
 
 Notas:
 
 * Con el parámetro **-d** (*--detach*) ejecuta el contenedor en segundo plano e imprime el ID del contenedor.
-* Cambiando el parámetro *-d* por el parámetro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 5000:5000 enylaine/comic-shop-search**
+* Cambiando el parámetro *-d* por el parámetro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 8000:8000 ivanromeroa/comicshop-comicdetails**
