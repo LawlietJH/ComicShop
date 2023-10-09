@@ -43,7 +43,7 @@ class SingupUseCase(Functionalities):
         self._log.info("User Created Successfully")
 
         data = {'message': f"The User '{user.username}' has been created successfully."}
-        return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
+        return SuccessResponse(data, 201, self.transaction_id, total_time_elapsed)
 
     def _set_data(self, user: UserRegistration):
         method_name = Utils.get_method_name(self, '_set_data')
