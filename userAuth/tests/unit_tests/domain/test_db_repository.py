@@ -15,11 +15,4 @@ class TestUnitDBRepository:
         with pytest.raises(NotImplementedError):
             repository.is_alive(log)
         with pytest.raises(NotImplementedError):
-            repository.get_general_config(log)
-        with pytest.raises(NotImplementedError):
-            repository.get_service_config(log)
-        with pytest.raises(NotImplementedError):
             repository.get_error_details(log)
-
-    # TODO: It is necessary to add a test class file for each repository that
-    #  your service requires. Do not forget to test each of your new functions

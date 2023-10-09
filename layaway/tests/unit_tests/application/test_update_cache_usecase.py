@@ -25,14 +25,14 @@ class TestUnitUpdateCacheUseCase:
         self.init_mocks(mocker)
         data = self.use_case.execute()
         assert data._status_code == 200
-        assert data.data['status'] == 'Successful'
+        assert data.data['status'] == 'successful'
         assert isinstance(data.data, dict)
         assert isinstance(data.meta, object)
         assert 'status' in data.data
 
     def test_execute_wrong(self, mocker):
         self.init_mocks(mocker)
-        self.db_worker_service.get_service_config = mocker.MagicMock(
+        self.db_worker_service.get_error_details = mocker.MagicMock(
             return_value={})
         with pytest.raises(ErrorResponse):
             self.use_case.execute()

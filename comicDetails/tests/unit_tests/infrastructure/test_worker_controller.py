@@ -60,6 +60,3 @@ class TestWorkerController:
         assert isinstance(response['data'], dict)
         assert len(response['meta']) > 0
         assert isinstance(response['meta'], dict)
-
-    # TODO: You need to add here each of your use cases and their possible
-    #  responses

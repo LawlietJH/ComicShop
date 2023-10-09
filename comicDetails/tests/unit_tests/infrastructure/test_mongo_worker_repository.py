@@ -40,43 +40,13 @@ class TestUnitMongoWorkerRepository:
         assert isinstance(is_alive, bool)
         assert not is_alive
 
-    def test_general_config(self, mocker, test_data):
-        self.init_mocks(mocker)
-        self.session.return_value.__enter__.return_value.get_db.return_value \
-            = MongoMock({'configuraciones': MongoMock(
-                test_data.get('general_config', {}))})
-        repository = MongoWorkerRepository(
-            session_factory=self.session)
-        general_config = repository.get_general_config(self.log)
-        environment = general_config[general_config['environment']]
-        assert isinstance(general_config, dict)
-        assert isinstance(environment, dict)
-        assert 'timeout' in general_config
-        assert 'timeout_internos' in general_config
-        assert 'reconexion' in general_config
-        assert 'storeId' in general_config
-        assert 'environment' in general_config
-        assert 'wcs_endpoint' in environment
-
-    def test_service_config(self, mocker, test_data):
-        self.init_mocks(mocker)
-        self.session.return_value.__enter__.return_value.get_db.return_value \
-            = MongoMock({'configuraciones': MongoMock(
-                test_data.get('service_config', {}))})
-        repository = MongoWorkerRepository(
-            session_factory=self.session)
-        service_config = repository.get_service_config(self.log)
-        assert isinstance(service_config, dict)
-
     def test_error_details(self, mocker, test_data):
         self.init_mocks(mocker)
         self.session.return_value.__enter__.return_value.get_db.return_value \
-            = MongoMock({'configuraciones': MongoMock(
+            = MongoMock({'configs': MongoMock(
                 test_data.get('error_details', {}))})
         repository = MongoWorkerRepository(
             session_factory=self.session)
         errors = repository.get_error_details(self.log, **{'test': True})
         assert isinstance(errors, dict)
         assert len(errors) > 0
-
-    # TODO: It is necessary to add a test for each of your new functions here

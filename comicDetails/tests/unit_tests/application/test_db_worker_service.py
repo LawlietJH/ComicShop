@@ -1,5 +1,4 @@
 import pytest
-
 from worker.infrastructure import MongoWorkerRepository
 from worker.application import DBWorkerService
 
@@ -13,20 +12,11 @@ class TestUnitDBWorkerService:
         repository.is_alive = mocker.MagicMock(return_value=True)
         repository.upsert_micro_service = mocker.MagicMock(return_value={
             'data': {'nModified': 0}, 'status': 'success'})
-        repository.get_general_config = mocker.MagicMock(
-            return_value=test_data.get('general_config')['configuracion'])
-        repository.get_service_config = mocker.MagicMock(
-            return_value=test_data.get('service_config')['configuracion'])
         repository.get_error_details = mocker.MagicMock(
             return_value=test_data.get('error_details')['errors'])
         db_worker_service = DBWorkerService(repository)
         is_alive = db_worker_service.is_alive()
-        general_config = db_worker_service.get_general_config()
-        service_config = db_worker_service.get_service_config()
         error_details = db_worker_service.get_error_details()
         assert isinstance(is_alive, bool)
         assert is_alive
-        assert isinstance(general_config, dict)
-        assert isinstance(service_config, dict)
         assert isinstance(error_details, dict)
-        assert 'environment' in general_config

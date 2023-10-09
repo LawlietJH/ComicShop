@@ -40,6 +40,3 @@ class TestUnitReadinessUseCase:
         assert isinstance(data.meta, MetadataResponse)
         assert 'user_message' in data.data
         assert data.data['user_message'] == 'Error de conexión a mongo'
-
-    # TODO: It is necessary to add a test class file for each use case that
-    #  your service requires.
