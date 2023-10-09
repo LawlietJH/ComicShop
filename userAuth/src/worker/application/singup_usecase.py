@@ -66,7 +66,9 @@ class SingupUseCase(Functionalities):
             raise ErrorResponse(None, error_message, self.transaction_id, 409)
 
         user.password = crypt_context.hash(user.password)
-        was_inserted = self.__db_service.create_user(user.dict())
+        user_data = user.dict()
+        user_data['_id'] = user_data.pop('id')
+        was_inserted = self.__db_service.create_user(user_data)
 
         if was_inserted is None:
             measurement = Measurement('MongoDB', total_time_elapsed, 'Error')

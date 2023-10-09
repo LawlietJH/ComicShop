@@ -73,7 +73,7 @@ class LoginUseCase(Functionalities):
             measurement = Measurement('MongoDB', total_time_elapsed, 'Error')
             self._log.error(error_message, method_name,
                             "Password is incorrect", None, measurement)
-            raise ErrorResponse(None, error_message)
+            raise ErrorResponse(None, error_message, self.transaction_id)
 
         existing_user.pop('_id')
         token = self._security_schema.create_access_token(existing_user)
