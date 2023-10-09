@@ -4,7 +4,7 @@ from ddtrace import tracer
 from shared.infrastructure import WorkerResponse
 from worker.application import (GetLayawayUseCase, ReadinessUseCase,
                                 SetLayawayUseCase, UpdateCacheUseCase)
-from worker.domain.entities import Layaway
+from worker.domain.entities import Filter, Layaway
 
 
 class WorkerController:
@@ -38,8 +38,8 @@ class WorkerController:
     @staticmethod
     @autodynatrace.trace('WorkerController - get_layaway')
     @tracer.wrap(service='layaway', resource='get_layaway')
-    def get_layaway(token: str):
+    def get_layaway(token: str, filter: Filter):
         with container.SingletonContainer.scope() as app:
             use_case: GetLayawayUseCase = app.use_cases.get_layaway()
-            data = use_case.execute(token)
+            data = use_case.execute(token, filter)
             return WorkerResponse(content=data)

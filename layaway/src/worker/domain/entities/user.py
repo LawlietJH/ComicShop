@@ -1,8 +1,4 @@
-from typing import Any
-from uuid import UUID, uuid4
-
-from pydantic import BaseModel, Field, schema, validator
-from pydantic.fields import ModelField
+from pydantic import BaseModel
 
 
 class User(BaseModel):

@@ -10,7 +10,7 @@ from shared.infrastructure import ErrorResponse, GeneralRequestServer, Settings
 from shared.infrastructure.logs import Log, Measurement
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
-from worker.domain.entities import Comic, Layaway, User
+from worker.domain.entities import Filter, User
 
 from .functionalities import Functionalities
 
@@ -27,31 +27,48 @@ class GetLayawayUseCase(Functionalities):
 
     @autodynatrace.trace('GetLayawayUseCase - execute')
     @tracer.wrap(service='layaway', resource='execute')
-    def execute(self, token: str) -> Response:
+    def execute(self, token: str, filter: Filter) -> Response:
         self._set_logs()
         self._set_configs(self.__db_service)
 
-        self._log.info("Start: GET /layaway", {'token': token})
+        object_ = {'token': token, 'order_by': filter.order_by}
+        self._log.info("Start: GET /layaway", object_)
 
-        layaway = self._get_data(token)
+        layaway = self._get_data(token, filter)
 
         total_time_elapsed = Utils.get_time_elapsed_ms(self.init_time)
         self._log.info("Get Layaway Successfully")
 
         return SuccessResponse(layaway, 200, self.transaction_id, total_time_elapsed)
 
-    def _get_data(self, token: str) -> dict:
+    def _get_data(self, token: str, filter: Filter) -> dict:
         user = self._get_user(token)
+        layaway = {'user_id': user.id,
+                   'username': user.username,
+                   'layaway': []}
+
         layaway_data = self.__db_service.get_layaway(user_id=user.id)
-        if not layaway_data:
+
+        if layaway_data is None:
             raise ErrorResponse(None, "Error getting layaway",
                                 self.transaction_id, 500)
+        elif not layaway_data:
+            return layaway
+
         layaway_data = layaway_data['layaway']
-        layaway = {
-            'user_id': user.id,
-            'username': user.username,
-            'layaway': layaway_data
-        }
+
+        if filter.order_by == 'id':
+            layaway_data = sorted(layaway_data, reverse=filter.reverse,
+                                  key=lambda item: item['id'])
+        elif filter.order_by == 'date':
+            layaway_data = sorted(layaway_data, reverse=filter.reverse,
+                                  key=lambda item: item['on_sale_date'])
+        elif filter.order_by == 'title':
+            layaway_data = sorted(layaway_data, reverse=filter.reverse,
+                                  key=lambda item: item['title'])
+
+        layaway['layaway'] = layaway_data
+
         return layaway
 
     # General Request ----------------------------------------------------------
@@ -75,7 +92,7 @@ class GetLayawayUseCase(Functionalities):
         if not response['success']:
             data = response['response']['data']
             meta = response['response']['meta']
-            status = data['response']['status']
+            status = response['status']
             message = data.get('user_message', '')
             details = meta.get('details', None)
             self._request_log_error(adds['url'], message, adds['time_elapsed'],

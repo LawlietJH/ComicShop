@@ -6,7 +6,7 @@ from shared.infrastructure import HttpResponse
 from shared.infrastructure.settings import get_settings
 from worker.domain import (responses_layaway, responses_liveness,
                            responses_readiness)
-from worker.domain.entities import Layaway
+from worker.domain.entities import Filter, Layaway
 from worker.infrastructure import WorkerController
 
 # serviceName:
@@ -60,7 +60,8 @@ def set_layaway(body: Layaway,
             summary=descriptions['get_layaway'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='userauth', resource=f'GET {prefix}/{resource}')
-def get_layaway(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
+def get_layaway(filter: Filter = Depends(),
+                authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HttpResponse:
     """ Obtiene el apartado de cómics del usuario. """
     token = authorization.credentials
-    return WorkerController.get_layaway(token)
+    return WorkerController.get_layaway(token, filter)
