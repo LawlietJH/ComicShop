@@ -8,7 +8,7 @@ from worker.domain import (responses_get_records, responses_liveness,
 from worker.domain.entities import Filter
 from worker.infrastructure import WorkerController
 
-# comicDetails: /catalogs/api/v1/docs
+# comicDetails: /catalogs/api/v1/records/docs
 
 settings = get_settings()
 

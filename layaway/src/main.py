@@ -17,8 +17,9 @@ settings = get_settings()
 namespace = settings.NAMESPACE
 api_version = settings.API_VERSION
 enable_docs = settings.ENABLE_DOCS
+resource = settings.RESOURCE
 
-prefix = f'/{namespace}/api/{api_version}'
+prefix = f'/{namespace}/api/{api_version}/{resource}'
 
 description = """
 

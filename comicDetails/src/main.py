@@ -38,7 +38,7 @@ tags_metadata = [
     },
     {
         'name': 'Comics',
-        'description': "Permite obtener un listado de Comics.",
+        'description': "Permite obtener un listado de Personajes y Comics.",
     }
 ]
 

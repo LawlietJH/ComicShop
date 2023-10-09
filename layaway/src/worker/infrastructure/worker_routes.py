@@ -9,14 +9,14 @@ from worker.domain import (responses_layaway, responses_liveness,
 from worker.domain.entities import Filter, Layaway
 from worker.infrastructure import WorkerController
 
-# layaway: /orders/api/v1/docs
+# layaway: /orders/api/v1/layaway/docs
 
 settings = get_settings()
 
 version = settings.API_VERSION
 namespace = settings.NAMESPACE
 resource = settings.RESOURCE
-prefix = f'/{namespace}/api/{version}'
+prefix = f'/{namespace}/api/{version}/{resource}'
 
 descriptions = {
     'liveness': "Verifica que el servicio se encuentre disponible.",
@@ -44,7 +44,7 @@ def readiness() -> HttpResponse:
     return WorkerController.readiness()
 
 
-@router.post(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
+@router.post(f'', tags=["Layaway"], responses=responses_layaway,
              summary=descriptions['set_layaway'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='userauth', resource=f'POST {prefix}/{resource}')
@@ -55,7 +55,7 @@ def set_layaway(body: Layaway,
     return WorkerController.set_layaway(token, body)
 
 
-@router.get(f'/{resource}', tags=["Layaway"], responses=responses_layaway,
+@router.get(f'', tags=["Layaway"], responses=responses_layaway,
             summary=descriptions['get_layaway'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='userauth', resource=f'GET {prefix}/{resource}')
