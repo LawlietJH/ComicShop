@@ -1,1 +1,1 @@
-from .user import User, UserRegistration
+from .user import UserLogin, UserRegistration

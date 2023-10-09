@@ -6,7 +6,7 @@ from shared.infrastructure import HttpResponse
 from shared.infrastructure.settings import get_settings
 from worker.domain import (responses_liveness, responses_readiness,
                            responses_singup)
-from worker.domain.entities import User, UserRegistration
+from worker.domain.entities import UserLogin, UserRegistration
 from worker.infrastructure import WorkerController
 
 # userAuth: /users/api/v1/docs
@@ -57,7 +57,7 @@ def singup(user: UserRegistration) -> HttpResponse:
              summary=descriptions['login'])
 @autodynatrace.trace(f'{prefix}')
 @tracer.wrap(service='userauth', resource=f'POST {prefix}')
-def login(user: User) -> HttpResponse:
+def login(user: UserLogin) -> HttpResponse:
     """ Obtiene un Token. """
     return WorkerController.login(user)
 

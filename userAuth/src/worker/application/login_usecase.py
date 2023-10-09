@@ -11,7 +11,7 @@ from shared.infrastructure import ErrorResponse, Settings
 from shared.infrastructure.logs import Log, Measurement
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
-from worker.domain.entities import UserRegistration
+from worker.domain.entities import UserLogin
 from worker.domain.schemas import SecuritySchema
 
 from .functionalities import Functionalities
@@ -31,7 +31,7 @@ class LoginUseCase(Functionalities):
 
     @autodynatrace.trace('LoginUseCase - execute')
     @tracer.wrap(service='userauth', resource='execute')
-    def execute(self, user: UserRegistration) -> Response:
+    def execute(self, user: UserLogin) -> Response:
         self._set_logs()
         self._set_configs(self.__db_service)
 
@@ -46,20 +46,20 @@ class LoginUseCase(Functionalities):
         data = {'token': token}
         return SuccessResponse(data, 200, self.transaction_id, total_time_elapsed)
 
-    def _get_data(self, user: UserRegistration):
+    def _get_data(self, user: UserLogin):
         method_name = Utils.get_method_name(self, '_set_data')
         init_time = time.perf_counter()
 
-        existing_user = self.__db_service.get_user(user.username)
+        user_data = self.__db_service.get_user(user.username)
         total_time_elapsed = Utils.get_time_elapsed_ms(init_time)
 
-        if existing_user is None:
+        if user_data is None:
             measurement = Measurement('MongoDB', total_time_elapsed, 'Error')
             self._log.error("Failed to Get User", method_name,
                             "Mongo is not up", None, measurement)
             raise ErrorResponse(**self._error_attributes(100))
 
-        elif not existing_user:
+        elif not user_data:
             error_message = "User Does Not Exist"
             measurement = Measurement('/signup', total_time_elapsed, 'Error')
             self._log.error("Failed to Get User", method_name,
@@ -67,7 +67,7 @@ class LoginUseCase(Functionalities):
             raise ErrorResponse(**self._error_attributes(107),
                                 details="User does not exist")
 
-        hashed_password = existing_user.get('password')
+        hashed_password = user_data.get('password', '')
         if not crypt_context.verify(user.password, hashed_password):
             error_message = "Invalid Password"
             measurement = Measurement('MongoDB', total_time_elapsed, 'Error')
@@ -75,12 +75,11 @@ class LoginUseCase(Functionalities):
                             "Password is incorrect", None, measurement)
             raise ErrorResponse(None, error_message, self.transaction_id)
 
-        user_data = {'id': existing_user['_id'],
-                     'username': existing_user['username'],
-                     'name': existing_user['name'],
-                     'age': existing_user['age']}
+        user_data = {'id': user_data['_id'],
+                     'username': user_data['username'],
+                     'name': user_data['name'],
+                     'age': user_data['age']}
         token = self._security_schema.create_access_token(user_data)
-
         return token
 
     # General Functions --------------------------------------------------------

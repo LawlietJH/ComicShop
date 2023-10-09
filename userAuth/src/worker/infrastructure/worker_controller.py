@@ -4,7 +4,7 @@ from ddtrace import tracer
 from shared.infrastructure import WorkerResponse
 from worker.application import (LoginUseCase, ReadinessUseCase, SingupUseCase,
                                 UpdateCacheUseCase, ValidateTokenUseCase)
-from worker.domain.entities import User, UserRegistration
+from worker.domain.entities import UserLogin, UserRegistration
 
 
 class WorkerController:
@@ -38,7 +38,7 @@ class WorkerController:
     @staticmethod
     @autodynatrace.trace('WorkerController - login')
     @tracer.wrap(service='userauth', resource='login')
-    def login(user: User):
+    def login(user: UserLogin):
         with container.SingletonContainer.scope() as app:
             use_case: LoginUseCase = app.use_cases.login()
             data = use_case.execute(user)
