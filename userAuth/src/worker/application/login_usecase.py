@@ -75,8 +75,11 @@ class LoginUseCase(Functionalities):
                             "Password is incorrect", None, measurement)
             raise ErrorResponse(None, error_message, self.transaction_id)
 
-        existing_user.pop('_id')
-        token = self._security_schema.create_access_token(existing_user)
+        user_data = {'id': existing_user['_id'],
+                     'username': existing_user['username'],
+                     'name': existing_user['name'],
+                     'age': existing_user['age']}
+        token = self._security_schema.create_access_token(user_data)
 
         return token
 

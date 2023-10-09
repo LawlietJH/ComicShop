@@ -87,7 +87,7 @@ class SetLayawayUseCase(Functionalities):
         if not response['success']:
             data = response['response']['data']
             meta = response['response']['meta']
-            status = data['response']['status']
+            status = response['status']
             message = data.get('user_message', '')
             details = meta.get('details', None)
             self._request_log_error(adds['url'], message, adds['time_elapsed'],
@@ -118,7 +118,7 @@ class SetLayawayUseCase(Functionalities):
 
         if not response['success']:
             data = response['response']['data']
-            status = data['response']['status']
+            status = response['status']
             message = data.get('user_message', '')
             self._request_log_error(adds['url'], message, adds['time_elapsed'],
                                     adds['reason'], 'GET')

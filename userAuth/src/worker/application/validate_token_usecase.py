@@ -62,7 +62,6 @@ class ValidateTokenUseCase(Functionalities):
                                 "User does not exist", None, measurement)
                 raise error_104
 
-            user.pop('password')
             return user
 
         except JWSError as error:
