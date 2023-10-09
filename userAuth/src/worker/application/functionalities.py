@@ -1,6 +1,3 @@
-import hashlib
-import time
-
 import autodynatrace
 from ddtrace import tracer
 from shared.infrastructure import ErrorResponse

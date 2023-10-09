@@ -9,8 +9,7 @@ from worker.domain import (responses_layaway, responses_liveness,
 from worker.domain.entities import Filter, Layaway
 from worker.infrastructure import WorkerController
 
-# serviceName:
-# /namespace/v1/resource
+# layaway: /orders/api/v1/docs
 
 settings = get_settings()
 

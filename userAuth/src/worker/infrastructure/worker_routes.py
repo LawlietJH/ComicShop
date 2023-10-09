@@ -1,6 +1,6 @@
 import autodynatrace
 from ddtrace import tracer
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from shared.infrastructure import HttpResponse
 from shared.infrastructure.settings import get_settings

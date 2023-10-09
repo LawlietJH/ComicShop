@@ -7,7 +7,7 @@ import autodynatrace
 from ddtrace import tracer
 from shared.domain import Response, SuccessResponse
 from shared.infrastructure import ErrorResponse, GeneralRequestServer, Settings
-from shared.infrastructure.logs import Log, Measurement
+from shared.infrastructure.logs import Log
 from shared.infrastructure.utils import Utils
 from worker.domain import DBRepository
 from worker.domain.entities import Filter, User
