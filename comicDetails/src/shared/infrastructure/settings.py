@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     # Http
     MARVEL_API_PUBLIC_KEY: str
     MARVEL_API_PRIVATE_KEY: str
-    DEVELOPER_PORTAL_HTTP_ERRORS: str
+    DEVELOPER_PORTAL_HTTP_ERRORS: str = 'https://developer-app.com/errors'
     HTTP_TIMEOUT_SEC: int = 15
 
 

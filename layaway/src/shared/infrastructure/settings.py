@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     # Http
     URL_VALIDATE_TOKEN: str
     URL_RECORDS: str
-    DEVELOPER_PORTAL_HTTP_ERRORS: str
+    DEVELOPER_PORTAL_HTTP_ERRORS: str = 'https://developer-app.com/errors'
     HTTP_TIMEOUT_SEC: int = 15
 
 

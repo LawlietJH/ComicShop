@@ -25,8 +25,8 @@ class Settings(BaseSettings):
     APPENDERS: str = 'console'
     # Http
     SECRET_KEY: str
-    ALGORITHM: str
-    DEVELOPER_PORTAL_HTTP_ERRORS: str
+    ALGORITHM: str = 'HS256'
+    DEVELOPER_PORTAL_HTTP_ERRORS: str = 'https://developer-app.com/errors'
     HTTP_TIMEOUT_SEC: int = 15
 
 
