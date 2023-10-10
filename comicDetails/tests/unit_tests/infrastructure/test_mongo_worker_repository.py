@@ -40,11 +40,13 @@ class TestUnitMongoWorkerRepository:
         assert isinstance(is_alive, bool)
         assert not is_alive
 
-    def test_error_details(self, mocker, test_data):
+    def test_get_error_details(self, mocker, test_data):
         self.init_mocks(mocker)
-        self.session.return_value.__enter__.return_value.get_db.return_value \
-            = MongoMock({'configs': MongoMock(
-                test_data.get('error_details', {}))})
+        self.session.return_value.__enter__. \
+            return_value.get_db. \
+            return_value.configs. \
+            find_one.return_value = test_data.get('error_details')
+
         repository = MongoWorkerRepository(
             session_factory=self.session)
         errors = repository.get_error_details(self.log, **{'test': True})
