@@ -335,17 +335,17 @@ Para correr todas las imagenes de forma indiciduales:
 
 Docker Pull:
 
-	docker pull ivanromeroa/comicshop-comicdetails:latest
-	docker pull ivanromeroa/comicshop-userauth:latest
-	docker pull ivanromeroa/comicshop-layaway:latest
+	docker pull deleon/comicshop-comicdetails:latest
+	docker pull deleon/comicshop-userauth:latest
+	docker pull deleon/comicshop-layaway:latest
 
 Docker Run:
 
-    docker run -d -p 8000:8000 ivanromeroa/comicshop-comicdetails
-    docker run -d -p 8001:8001 ivanromeroa/comicshop-userauth
-    docker run -d -p 8002:8002 ivanromeroa/comicshop-layaway
+    docker run -d -p 8000:8000 deleon/comicshop-comicdetails
+    docker run -d -p 8001:8001 deleon/comicshop-userauth
+    docker run -d -p 8002:8002 deleon/comicshop-layaway
 
 Notas:
 
 * Con el parámetro **-d** (*--detach*) ejecuta el contenedor en segundo plano e imprime el ID del contenedor.
-* Cambiando el parámetro *-d* por el parámetro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 8000:8000 ivanromeroa/comicshop-comicdetails**
+* Cambiando el parámetro *-d* por el parámetro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 8000:8000 deleon/comicshop-comicdetails**
